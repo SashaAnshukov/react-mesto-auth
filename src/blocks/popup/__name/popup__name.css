@@ -1,0 +1,22 @@
+.popup__name {
+    color: #000000;
+    margin-top: 34px;
+    margin-left: 36px;
+    margin-right: 64px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+@media screen and (max-width: 650px) {
+    .popup__name {
+        margin-top: 25px;
+        margin-left: 22px;
+        margin-right: 22px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+}

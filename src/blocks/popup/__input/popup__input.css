@@ -1,0 +1,40 @@
+.popup__input {
+    display: flex;
+    flex-direction: column;
+    /*min-height: 27px;*/
+    min-width: 358px;
+    color: #000000;
+   /* margin-top: 54px;*/
+    margin-left: 36px;
+    margin-right: 36px;
+    /*margin-bottom: 0;*/
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 0 0 13px 0;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+/*.popup__input:nth-last-child(2){
+    margin-top: 30px;
+    margin-bottom: 48px;
+}*/
+
+@media screen and (max-width: 650px) {
+    .popup__input {
+        min-width: 238px;
+        margin-top: 0;
+        margin-left: 22px;
+        margin-right: 22px;
+    }
+}
+
+/*@media screen and (max-width: 650px) {
+    .popup__input:nth-last-child(2) {
+        margin-bottom: 45px;
+    }
+}*/

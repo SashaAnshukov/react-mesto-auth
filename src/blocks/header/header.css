@@ -1,0 +1,33 @@
+.header {
+    /*min-height: 74px;*/
+    display: flex;
+    margin-top: 45px;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(84,84,84,.7);
+}
+
+@media screen and (max-width:1279px) {
+    .header {
+        margin-top: 28px;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-bottom: 42px;
+    }
+}
+
+@media screen and (max-width:867px) {
+    .header {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .header {
+        margin-left: 0;
+        margin-right: 0;
+        /*min-height: 56px;*/
+    }
+}

@@ -1,0 +1,18 @@
+.popup__type_confirm {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 430px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    line-height: 23px;
+}
+
+@media screen and (max-width: 650px) {
+    .popup__container-confirm {
+        max-width: 282px;
+    }
+}

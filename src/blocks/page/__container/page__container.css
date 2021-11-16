@@ -1,0 +1,6 @@
+.page__container {
+    margin: 0 auto;
+    max-width: 1280px;
+    min-width: 320px;
+    /*border: 1px dashed red;*/
+}

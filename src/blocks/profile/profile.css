@@ -1,0 +1,34 @@
+.profile {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    /*display: grid;
+    grid-template-columns: repeat(3,min-content);
+    grid-template-rows: min-content;
+    column-gap: 30px;*/
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-bottom: 50px;
+}
+
+@media screen and (max-width: 1279px) {
+    .profile {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+}
+
+@media screen and (max-width:867px) {
+    .profile {
+        margin-left: 19px;
+        margin-right: 19px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .profile {
+        flex-direction: column;
+        margin-bottom: 36px;
+    }
+}
