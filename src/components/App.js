@@ -7,7 +7,12 @@ import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/Api';
 import {useState, useEffect} from 'react';
+import {Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import Login from './Login';
+import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
+import * as Auth from '../Auth';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -35,24 +40,34 @@ function App() {
   const handleCardClick  = (card) => {setSelectedCard(card); onPicturePopup()};
 
   const [currentUser , setCurrentUser] = useState('');
+
+  // стэйт пользователя — вошёл он в систему или нет
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const navigated = useNavigate();
+
   useEffect(() => {
-    api.getUserData().then(res => {
-        setCurrentUser(res);
-    })
-    .catch(err => {
-        console.log (`Ошибка: ${err}`)
-    })
-  }, [])
+    if (loggedIn) {
+      api.getUserData().then(res => {
+          setCurrentUser(res);
+      })
+      .catch(err => {
+          console.log (`Ошибка: ${err}`)
+      })
+    }
+  }, [loggedIn])
 
   const [cards, setCards] = useState([]);
   useEffect(() => {
-    api.getInitialCards().then(res => {
-      setCards(res);
-    })
-    .catch(err => {
-        console.log (`Ошибка: ${err}`)
-    })
-  }, [])
+    if (loggedIn) {
+      api.getInitialCards().then(res => {
+        setCards(res);
+      })
+      .catch(err => {
+          console.log (`Ошибка: ${err}`)
+      })
+    }
+  }, [loggedIn])
 
   function handleCardLike(card) {
     
@@ -120,30 +135,96 @@ function handleAddPlaceSubmit (newCard) {
     })
 }
 
+function registration({ email, password }) {
+  Auth.register(email, password)
+  .then((res) => {
+    navigated('/sign-in');
+  })
+}
+
+function authorization({email, password}) {
+  console.log({email, password})
+
+  Auth.authorize(email, password)
+  .then((res) => {
+        setLoggedIn(true);
+        navigated('/');
+        console.log('authorization!!');
+  })
+}
+
+const [checkToken, setCheckToken] = useState(true);
+
+useEffect(() =>{
+  // если у пользователя есть токен в localStorage,
+  // эта функция проверит валидность токена
+  const jwt = localStorage.getItem('jwt');
+  if (jwt){
+    setCheckToken (true)
+    // проверим токен
+    Auth.tokenCheck (jwt).then((res) => {
+      // авторизуем пользователя и отправим залогиниться??
+      setLoggedIn (true);
+      navigated('/');
+      //setEmail(res.data.email);
+    })
+    .catch(err => {
+      console.log (`Ошибка: ${err}`)
+    })
+  }
+}, [navigated])
+
   return (
     
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
       <Header />
-      <Main 
-        handleEditAvatarClick = {handleEditAvatarClick} handleEditProfileClick = {handleEditProfileClick}
-        handleAddPlaceClick = {handleAddPlaceClick} onCardClick ={handleCardClick}
-        onCardLike = {handleCardLike} onCardDelete ={handleCardDelete} cards={cards} 
-      />
-      <Footer />
+      
+      <Routes >
+      
+          <Route exact path='/sign-up' element={<Register registration = {registration}/>} />
+          <Route exact path='/sign-in' element={<Login authorization = {authorization}/>} />
+          
+          
+            <ProtectedRoute exact path="/" loggedIn={loggedIn} checkToken={checkToken}>
+              <Main 
+                handleEditAvatarClick = {handleEditAvatarClick}
+                handleEditProfileClick = {handleEditProfileClick}
+                handleAddPlaceClick = {handleAddPlaceClick} onCardClick ={handleCardClick}
+                onCardLike = {handleCardLike} onCardDelete ={handleCardDelete} cards={cards}
+              />
+              <EditAvatarPopup 
+                isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
+                onUpdateAvatar = {handleUpdateAvatar}
+                buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
+              />
+              <EditProfilePopup
+                isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
+                onUpdateUser = {handleUpdateUser}
+                buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
+              />
+              <AddPlacePopup
+                isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}
+                onAddPlace = {handleAddPlaceSubmit}
+                buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
+              />
+              <ImagePopup 
+                card = {selectedCard} isOpen = {isPicturePopupOpen} onClose = {closeAllPopups} >
+              </ImagePopup>
+            </ProtectedRoute>
 
-      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}
-        onUpdateAvatar = {handleUpdateAvatar} buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
-      />
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}
-        onUpdateUser = {handleUpdateUser} buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
-      />
-      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}
-        onAddPlace = {handleAddPlaceSubmit} buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
-      />
-      <ImagePopup 
-        card = {selectedCard} isOpen = {isPicturePopupOpen} onClose = {closeAllPopups} >
-      </ImagePopup>
+          
+
+          <Route path="/"
+            element={loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />}
+          />
+
+        
+
+        
+      </Routes >
+
+      <Footer />
       </CurrentUserContext.Provider>
     </div>
   );
