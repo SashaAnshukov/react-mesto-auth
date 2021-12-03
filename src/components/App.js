@@ -185,8 +185,8 @@ useEffect(() =>{
           <Route exact path='/sign-up' element={<Register registration = {registration}/>} />
           <Route exact path='/sign-in' element={<Login authorization = {authorization}/>} />
           
-          
-            <ProtectedRoute exact path="/" loggedIn={loggedIn} checkToken={checkToken}>
+          <Route exact path='/' loggedIn={loggedIn} checkToken={checkToken} element={
+            <ProtectedRoute>
               <Main 
                 handleEditAvatarClick = {handleEditAvatarClick}
                 handleEditProfileClick = {handleEditProfileClick}
@@ -212,7 +212,7 @@ useEffect(() =>{
                 card = {selectedCard} isOpen = {isPicturePopupOpen} onClose = {closeAllPopups} >
               </ImagePopup>
             </ProtectedRoute>
-
+          }/>
           
 
           <Route path="/"
