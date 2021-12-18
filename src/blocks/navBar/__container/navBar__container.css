@@ -1,0 +1,22 @@
+.navBar__container {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 0;
+    align-self: center;
+}
+
+@media screen and (max-width: 767px) {
+    .navBar__container {
+        margin-right: 30px;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    .navBar__container {
+        flex-direction: column;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

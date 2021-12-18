@@ -10,18 +10,11 @@ export const register = (email, password) => {
         body: JSON.stringify({password, email})
     })
     .then((response) => {
-        try {
-        if (response.status === 200){
+        if (response.ok) {
             return response.json();
         }
-        } catch(e){
-        return (e)
-        }
+        return Promise.reject(`Ошибка ${response.status}`);
     })
-    .then((res) => {
-        return res;
-    })
-    .catch((err) => console.log(err));
 };
 
 // функция, которая будет проверять логин и пароль пользователя
@@ -32,25 +25,28 @@ export const authorize = (email, password) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email, password})
+        },
+        body: JSON.stringify({email, password})
     })
-    .then((response => response.json()))
-    .then((data) => {
-        if (data.jwt){
-            // сохраняем токен в localStorage
-            localStorage.setItem('jwt', data.jwt);
-            return data;
-        } else {
-            return;
+    .then((response) => {
+        //console.log(response)
+        if (response.ok) {
+            return response.json();
         }
+        return Promise.reject(`Ошибка ${response.status}`);
+    })
+    .then((data) => {
+        //console.log(data)
+        // сохраняем токен в localStorage
+        localStorage.setItem('jwt', data.token);
+        return data;
     })
     .catch(err => console.log(err))
 };
 
 //Запрос для проверки валидности токена и получения email для вставки в шапку сайта
 export const tokenCheck  = (token) => {
-    console.log(token)
+    //console.log(token)
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
@@ -59,6 +55,6 @@ export const tokenCheck  = (token) => {
             'Authorization': `Bearer ${token}`,
         }
     })
-    //.then(res => res.json())
+    .then(res => res.json())
     .then(data => data)
 }

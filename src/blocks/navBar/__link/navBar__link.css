@@ -1,0 +1,18 @@
+.navBar__link {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+    margin: 0;
+    padding-bottom: 46px;
+}
+
+@media screen and (max-width: 767px) {
+    .navBar__link {
+        font-size: 14px;
+        line-height: 17px;
+        padding-bottom: 18px;
+    }
+}

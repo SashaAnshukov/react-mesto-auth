@@ -1,0 +1,22 @@
+.startPage__label{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.startPage__label:nth-child(2) {
+    margin-top: 30px;
+    margin-bottom: 216px;
+}
+
+@media screen and (max-width: 650px) {
+    .startPage__label {
+        margin-top: 75px;
+    }
+
+    .startPage__label:nth-last-child(2) {
+        margin-bottom: 45px;
+    }
+}

@@ -19,13 +19,9 @@ function Login({authorization}) {
     function handleSubmit(e) {
         // Запрещаем браузеру переходить по адресу формы
         e.preventDefault();
-
         // Передаём значения управляемых компонентов во внешний обработчик
-        /*const dataLogin = {};
-        dataLogin.email = email;
-        dataLogin.password = password;*/
         authorization({ email, password });
-        //console.log(dataLogin)
+
     }
 
     //очищаем инпуты при каждом открытии модального окна
@@ -38,29 +34,29 @@ function Login({authorization}) {
 
     return (
 
-        <div className="popup__container">
-            <h2 className="popup__name">{'Вход'}</h2>
-                    <form name ={'Вход'} className="popup__form" onSubmit={handleSubmit}>
-                        <div className="popup__label">
+        <div className="startPage__container">
+            <h2 className="startPage__name">{'Вход'}</h2>
+                    <form name ={'Вход'} className="startPage__form" onSubmit={handleSubmit}>
+                        <div className="startPage__label">
                         <input
                             value={email || ''} onChange={handleChangeEmail}
                             required minLength="1" maxLength="30" type="text"
                             name ="Email" placeholder = "Email"
-                            className="popup__input popup__input_text_namePlace"
+                            className="startPage__input startPage__input_text_namePlace"
                         />
-                        <span className="popup__input-error"></span>
+                        <span className="startPage__input-error"></span>
                         
                         </div>
-                        <div className="popup__label">
+                        <div className="startPage__label">
                             <input 
                                 value={password || ''} onChange={handleChangePassword}
                                 required type="password" name ="password"
-                                placeholder = "Пароль" className="popup__input popup__input_text_link"
+                                placeholder = "Пароль" className="startPage__input startPage__input_text_link"
                             />
-                            <span className="popup__input-error"></span>
+                            <span className="startPage__input-error"></span>
                         </div>
                         <button type ="submit" aria-label="saveButton"
-                            className="popup__button popup__button_invalid">{'Войти в айти'}
+                            className="startPage__button startPage__button_invalid">Войти
                         </button>
                     </form>
         </div>

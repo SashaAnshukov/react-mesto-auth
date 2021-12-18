@@ -1,0 +1,20 @@
+.startPage__button_span {
+    color:#FFFFFF;
+    margin-top: 0;
+    text-align: center;
+    font-style: normal;
+    margin-top: 15px;
+    margin-bottom: 0;
+    line-height: 17px;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 650px) {
+    .startPage__button_span {
+        margin-top: 25px;
+        margin-left: 22px;
+        margin-right: 22px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+}

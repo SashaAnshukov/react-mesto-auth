@@ -1,0 +1,8 @@
+.startPage__button_link {
+    text-decoration:none;
+    color:#FFFFFF;
+}
+
+.startPage__button_link:hover {
+    opacity: 0.6;
+}

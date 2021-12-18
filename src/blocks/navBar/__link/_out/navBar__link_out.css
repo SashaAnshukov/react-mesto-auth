@@ -1,0 +1,18 @@
+.navBar__link_out {
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 22px;
+    color: #A9A9A9;
+    margin-left: 24px;
+    padding-bottom: 46px;
+}
+
+.navBar__link_out:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 321px) {
+    .navBar__link_out {
+        margin-left: 0;
+    }
+}

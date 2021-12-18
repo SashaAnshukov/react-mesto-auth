@@ -1,0 +1,19 @@
+.startPage__name {
+    color:#FFFFFF;
+    margin-top: 60px;
+    text-align: center;
+    font-style: normal;
+    margin-bottom: 50px;
+    line-height: 29px;
+    font-size: 24px;
+}
+
+@media screen and (max-width: 650px) {
+    .startPage__name {
+        margin-top: 25px;
+        margin-left: 22px;
+        margin-right: 22px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+}

@@ -1,6 +1,22 @@
 @import url('./vendor/normalize.css');
 @import url('./vendor/fonts/fonts.css');
 
+@import url('./blocks/navBar/__container/navBar__container.css');
+@import url('./blocks/navBar/__link/navBar__link.css');
+@import url('./blocks/navBar/__link/_out/navBar__link_out.css');
+
+@import url('./blocks/startPage/startPage.css');
+@import url('./blocks/startPage/__name/startPage__name.css');
+@import url('./blocks//startPage/__label/startPage__label.css');
+@import url('./blocks/startPage/__input/startPage__input.css');
+@import url('./blocks/startPage/__button/startPage__button.css');
+@import url('./blocks/startPage/__button/_span/startPage__button_span.css');
+@import url('./blocks/startPage/__button/_link/startPage__button_link.css');
+
+@import url('./blocks/popup/infoToolTip/_text/popup__infoToolTip_text.css');
+@import url('./blocks/popup/infoToolTip/_image/popup__infoToolTip_image.css');
+
+
 @import url('./blocks/popup/popup.css');
 @import url('./blocks/popup/_visible/popup_visible.css');
 @import url('./blocks/popup/__overlay/popup__overlay.css');

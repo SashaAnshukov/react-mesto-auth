@@ -31,3 +31,9 @@
         /*min-height: 56px;*/
     }
 }
+
+@media screen and (max-width:321px) {
+    .header {
+        flex-direction: column-reverse;
+    }
+}

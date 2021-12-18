@@ -1,9 +1,6 @@
 import React from 'react';
-import { useState} from 'react';
+import {useState} from 'react';
 import {Link} from 'react-router-dom';
-//import * as auth from '../auth.js';
-//import * as data from '../data.js';
-//import './styles/Register.css';
 
 function Register ({registration}) {
     
@@ -26,42 +23,39 @@ function Register ({registration}) {
     e.preventDefault();
     
     // Передаём значения управляемых компонентов во внешний обработчик
-    const dataRegister = {};
-    dataRegister.email = email;
-    dataRegister.password = password;
-    registration(dataRegister);
+    const datastartPage = {};
+    datastartPage.email = email;
+    datastartPage.password = password;
+    registration(datastartPage);
     }
 
-
     return (
-        <div className="popup__container">
-            <h2 className="popup__name">{'Регистрация'}</h2>
-            <form name ={'Регистрация'} className="popup__form" onSubmit={handleSubmit}>
-                <div className="popup__label">
+        <div className="startPage__container">
+            <h2 className="startPage__name">Регистрация</h2>
+            <form name ={'Регистрация'} className="startPage__form" onSubmit={handleSubmit}>
+                <div className="startPage__label">
                     <input
                         value={email || ''} onChange={handleChangeEmail}
                         required minLength="1" maxLength="30" type="text"
                         name ="Email" placeholder = "Email"
-                        className="popup__input popup__input_text_namePlace"
+                        className="startPage__input startPage__input_text_namePlace"
                     />
-                    <span className="popup__input-error"></span>
-                    
-                    </div>
-                    <div className="popup__label">
-                        <input 
-                            value={password || ''} onChange={handleChangePassword}
-                            required type="password" name ="password"
-                            placeholder = "Пароль" className="popup__input popup__input_text_link"
-                        />
-                        <span className="popup__input-error"></span>
-                    </div>
-                        <button type ="submit" aria-label="saveButton"
-                            className="popup__button popup__button_invalid">{'Зарегистрироваться'}
-                        </button>
-                    <div className="popup__name">
-                        <p>Уже зарегистрированы?</p>
-                        <Link to="login" className="register__login-link">Войти</Link>
-                    </div>
+                    <span className="startPage__input-error"></span>
+                </div>
+                <div className="startPage__label">
+                    <input 
+                        value={password || ''} onChange={handleChangePassword}
+                        required type="password" name ="password"
+                        placeholder = "Пароль" className="startPage__input startPage__input_text_link"
+                    />
+                    <span className="startPage__input-error"></span>
+                </div>
+                <button type ="submit" aria-label="saveButton"
+                    className="startPage__button startPage__button_invalid">Зарегистрироваться
+                </button>
+                <p className="startPage__button_span">Уже зарегистрированы?
+                    <Link className="startPage__button_link" to='/sign-in'> Войти</Link>
+                </p>
             </form>
         </div>
     )

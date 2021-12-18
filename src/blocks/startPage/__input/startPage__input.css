@@ -1,0 +1,35 @@
+.startPage__input {
+    display: flex;
+    flex-direction: column;
+    min-width: 358px;
+    background-color:#000000;
+    color: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 27px;
+    padding: 0 0 13px 0;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #CCCCCC;
+}
+
+input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+    font-size: 14px;
+    line-height: 27px;
+  }
+
+
+@media screen and (max-width: 650px) {
+    .startPage__input {
+        min-width: 238px;
+        margin-top: 0;
+        margin-left: 22px;
+        margin-right: 22px;
+    }
+}

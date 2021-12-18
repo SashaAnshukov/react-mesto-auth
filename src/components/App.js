@@ -13,6 +13,10 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import * as Auth from '../Auth';
+import InfoTooltip from './InfoTooltip';
+import NavBar from './NavBar';
+import success from "../images/success.svg";
+import error from "../images/error.svg";
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -32,6 +36,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsPicturePopupOpen(false);
     setSelectedCard ({name:'', src:''})
+    setShowToolTip(false)
   };
 
   const [selectedCard, setSelectedCard] = useState({name:'', src:''});
@@ -44,7 +49,7 @@ function App() {
   // стэйт пользователя — вошёл он в систему или нет
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const navigated = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loggedIn) {
@@ -85,12 +90,12 @@ function App() {
 function handleCardDelete (card) {
   // Отправляем запрос в API и удаляем карточку
   api.deleteCard(card._id)
-      .then(() => {
-        setCards((cards) => cards.filter((i) => i._id !== card._id));
-      })
-      .catch(err => {
-        console.log (`Ошибка: ${err}`)
-      })
+    .then(() => {
+      setCards((cards) => cards.filter((i) => i._id !== card._id));
+    })
+    .catch(err => {
+      console.log (`Ошибка: ${err}`)
+    })
 } 
 
 function handleUpdateUser (dataUser) {
@@ -103,90 +108,124 @@ function handleUpdateUser (dataUser) {
       setisLoadingButton(false)
     })
     .catch(err => {
-        console.log (`Ошибка: ${err}`)
+      console.log (`Ошибка: ${err}`)
     })
 }
 
 function handleUpdateAvatar (dataAvatar) {
   setisLoadingButton(true)
   // Отправляем запрос в API и обновляем аватар
-  //console.log(data)
   api.setUserAvatar(dataAvatar).then((res) => {
       setCurrentUser(res);
       closeAllPopups()
       setisLoadingButton(false)
     })
     .catch(err => {
-        console.log (`Ошибка: ${err}`)
+      console.log (`Ошибка: ${err}`)
     })
 }
 
 function handleAddPlaceSubmit (newCard) {
   setisLoadingButton(true)
   // Отправляем запрос в API и обновляем аватар
-  //console.log(data)
   api.setMyCard(newCard).then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups()
       setisLoadingButton(false);
     })
     .catch(err => {
-        console.log (`Ошибка: ${err}`)
+      console.log (`Ошибка: ${err}`)
     })
 }
 
-function registration({ email, password }) {
+const [showToolTip, setShowToolTip] = useState(false);
+const [info, setInfo] = useState({ image: "", text: "" });
+
+function ChooseInfoTooltip (info) {
+  setInfo({ image: info.image, text: info.text });
+}
+
+function registration({email, password}) {
   Auth.register(email, password)
-  .then((res) => {
-    navigated('/sign-in');
+  .then((response) => {
+    setTimeout(setShowToolTip, 1000, true);
+    ChooseInfoTooltip({
+      image: success,
+      text:'Вы успешно зарегистрировались'
+    })
+    setTimeout(navigate, 3000, '/sign-in');
+    setEmail(email);
   })
+  .catch((err) => {
+    setTimeout(setShowToolTip, 1000, true);
+    ChooseInfoTooltip({
+      image: error,
+      text: "Что-то пошло не так! Попробуйте еще раз!",
+    });
+  });
 }
 
 function authorization({email, password}) {
-  console.log({email, password})
-
   Auth.authorize(email, password)
-  .then((res) => {
-        setLoggedIn(true);
-        navigated('/');
-        console.log('authorization!!');
+  .then((data) => {
+    if (!data){
+      setLoggedIn(false);
+      setTimeout(setShowToolTip, 1000, true);
+      ChooseInfoTooltip({
+        image: error,
+        text: "Что-то пошло не так! Попробуйте еще раз!",
+      });
+    }
+    else{
+      setLoggedIn(true);
+      navigate('/');
+    }
   })
 }
 
-const [checkToken, setCheckToken] = useState(true);
+const [checkToken, setCheckToken] = useState(false);
+const [email, setEmail] = useState(false);
 
 useEffect(() =>{
   // если у пользователя есть токен в localStorage,
   // эта функция проверит валидность токена
   const jwt = localStorage.getItem('jwt');
   if (jwt){
-    setCheckToken (true)
+    setCheckToken(true)
     // проверим токен
     Auth.tokenCheck (jwt).then((res) => {
       // авторизуем пользователя и отправим залогиниться??
       setLoggedIn (true);
-      navigated('/');
-      //setEmail(res.data.email);
+      navigate('/');
+      setEmail(res.data.email);
     })
     .catch(err => {
       console.log (`Ошибка: ${err}`)
     })
   }
-}, [navigated])
+}, [navigate])
+
+function signOut(){
+  localStorage.removeItem('jwt');
+  navigate('/sign-up');
+  setLoggedIn (false);
+}
 
   return (
     
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-      <Header />
-      
+      <Header>
+        <NavBar loggedIn={loggedIn} email={email} signOut={signOut}/>
+      </Header>
+
       <Routes >
       
           <Route exact path='/sign-up' element={<Register registration = {registration}/>} />
           <Route exact path='/sign-in' element={<Login authorization = {authorization}/>} />
           
-          <Route exact path='/' loggedIn={loggedIn} checkToken={checkToken} element={
-            <ProtectedRoute>
+          <Route exact path='/' element={
+            <ProtectedRoute loggedIn={loggedIn} checkToken={checkToken}>
               <Main 
                 handleEditAvatarClick = {handleEditAvatarClick}
                 handleEditProfileClick = {handleEditProfileClick}
@@ -213,22 +252,23 @@ useEffect(() =>{
               </ImagePopup>
             </ProtectedRoute>
           }/>
-          
 
           <Route path="/"
             element={loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />}
           />
 
-        
-
-        
       </Routes >
+
+            <InfoTooltip 
+              isOpen={showToolTip} 
+              onClose={closeAllPopups} 
+              info={info}
+            />
 
       <Footer />
       </CurrentUserContext.Provider>
     </div>
   );
-  
 }
 
 export default App;
