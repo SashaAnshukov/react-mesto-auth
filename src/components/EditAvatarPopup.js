@@ -2,7 +2,7 @@ import PopupWithForm from './PopupWithForm';
 import {useRef, useEffect} from 'react';
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, buttonText}) {
-    let avatarRef = useRef(null); 
+    const avatarRef = useRef(null); 
 
     function handleSubmit(e) {
         // Запрещаем браузеру переходить по адресу формы

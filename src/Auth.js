@@ -1,5 +1,13 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+// проверка ответа от сервера
+const checkResponse = (response) => {
+    if (response.ok) {
+        return response.json();
+    }
+    return Promise.reject(`Ошибка ${response.status}`);
+}
+
 export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
@@ -9,12 +17,7 @@ export const register = (email, password) => {
         },
         body: JSON.stringify({password, email})
     })
-    .then((response) => {
-        if (response.ok) {
-            return response.json();
-        }
-        return Promise.reject(`Ошибка ${response.status}`);
-    })
+    .then(checkResponse)
 };
 
 // функция, которая будет проверять логин и пароль пользователя
@@ -28,13 +31,7 @@ export const authorize = (email, password) => {
         },
         body: JSON.stringify({email, password})
     })
-    .then((response) => {
-        //console.log(response)
-        if (response.ok) {
-            return response.json();
-        }
-        return Promise.reject(`Ошибка ${response.status}`);
-    })
+    .then(checkResponse)
     .then((data) => {
         //console.log(data)
         // сохраняем токен в localStorage
@@ -58,3 +55,4 @@ export const tokenCheck  = (token) => {
     .then(res => res.json())
     .then(data => data)
 }
+
